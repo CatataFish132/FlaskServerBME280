@@ -9,14 +9,18 @@ from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
+import configparser
 
 date_1 = ''
 date_2 = ''
+cf = configparser.ConfigParser()
+cf.read("config.ini")
+
 # Retrieve LAST data from database
 
 def getLastData():
 	'''gets the last sensor values'''
-	con=sqlite3.connect('../../mqtt2dbIOT/databasepi')
+	con=sqlite3.connect(cf["DATABASE"]["path"])
 	cur=con.cursor()
 	data = cur.execute("SELECT rpi_datetime, temperature, humidity, pressure FROM data ORDER BY ID DESC LIMIT 1").fetchone()
 	con.close()
@@ -24,7 +28,7 @@ def getLastData():
 
 def get_data_samples(samples=100, date1='', date2=''):
 	'''gets the data between 2 dates or a specified amount'''
-	con=sqlite3.connect('../../mqtt2dbIOT/databasepi')
+	con=sqlite3.connect(cf["DATABASE"]["path"])
 	cur=con.cursor()
 	if date1 != '' and date2 != '':
 		sql_statement = f"SELECT rpi_datetime, temperature, humidity, pressure FROM data WHERE rpi_datetime BETWEEN '{date1}' AND '{date2}';"

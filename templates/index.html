@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>BME280 Data Sensor</title>
+    <link rel="stylesheet" href='../static/style.css'/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+		body {
+			text-align: center;
+		}
+
+		#g1,
+		#g2 {
+			width: 200px;
+			height: 160px;
+			display: inline-block;
+			margin: 1em;
+		}
+
+		#g3 {
+			width: 200px;
+			height: 160px;
+			display: inline-block;
+			margin: 1em;
+		}
+
+    </style>
+</head>
+
+<body>
+	<h1>BME280 Sensor Data </h1>
+    <div id="g1"></div>
+    <div id="g2"></div>
+	<div id="g3"></div>
+    <hr>
+	<h3> Last Sensors Reading: {{ time }} ==> <a href="/"class="button">REFRESH</a></h3>	
+	<hr>
+	<h3> HISTORICAL DATA </h3>
+		<p> Enter range of date where the data will be received in ISO format
+		<form method="POST">
+			<input name="date1" value= {{date1}}>
+			<input name="date2" value= {{date2}}>
+			<input type="submit">
+		</form></p>
+		<hr>
+		<img src="/plot/temp" alt="Image Placeholder" width="30%">
+		<img src="/plot/hum" alt="Image Placeholder" width="30%">
+		<img src="/plot/pressure" alt="Image Placeholder" width="30%">
+	
+	<p> @2018 Developed by MJRoBot.org</p>
+    
+    <script src="../static/raphael-2.1.4.min.js"></script>
+    <script src="../static/justgage.js"></script>
+    <script>
+		var g1, g2, g3;
+		document.addEventListener("DOMContentLoaded", function(event) {
+			g1 = new JustGage({
+				id: "g1",
+				value: {{temp}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: -10,
+				max: 50,
+				title: "Temperature",
+				label: "Celcius"
+			});
+
+			g2 = new JustGage({
+				id: "g2",
+				value: {{hum}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: 0,
+				max: 100,
+				title: "Humidity",
+				label: "%"
+			});
+
+			g3 = new JustGage({
+				id: "g3",
+				value: {{pressure}},
+				valueFontColor: "yellow",
+				titleFontColor: "yellow",
+				min: 0,
+				max: 2000,
+				title: "Pressure",
+				label: "Pascals"
+			});
+
+		});
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
